@@ -16,4 +16,3 @@ Get the words of a bingo card topic
 \examples{
 get_topic("open-data")
 }
-

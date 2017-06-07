@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 bingo-*.pdf
+inst/doc

@@ -1,0 +1,18 @@
+---
+title: "Grid of Images"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Make grid of images
+
+```{r}
+library(bingo)
+data_chain_restaurants %>%
+  slice(1:8) %>%
+  chain_bingo_card()
+```
+

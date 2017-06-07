@@ -12,12 +12,15 @@ Depends:
     R (>= 3.2.1)
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests:
     testthat,
     shiny,
-    shinyjs
+    shinyjs,
+    knitr,
+    rmarkdown
 Imports:
     grDevices,
     grid,
     utils
+VignetteBuilder: knitr

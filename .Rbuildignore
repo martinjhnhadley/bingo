@@ -5,3 +5,4 @@
 ^bingo-.*\.pdf$
 ^img$
 ^CONTRIBUTING\.md$
+^data-raw$

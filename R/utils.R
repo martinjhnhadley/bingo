@@ -1,14 +1,48 @@
-vet_squares <- function(words) {
-  if (!inherits(words, "character")) words <- as.character(words)
-  words <- unique(words)
-  words
+generate_grid_of_n_squares <- function(number.of.images){
+
+  ## HARD CODED SQUARE NUMBERS BECAUSE OF REASONS
+  acceptable_perfect_squares <- c(9, 25, 49, 81, 121, 169,255)
+
+  if(number.of.images < 9){
+    9 # hard code 3x3 grid
+  } else {
+    acceptable_perfect_squares[number.of.images < acceptable_perfect_squares][[1]]
+  }
 }
 
-wrap_one <- function(x, w = 13) {
-  stopifnot(length(x) == 1L)
-  paste(strwrap(x, width = w), collapse = "\n")
+
+fill_with_free_squares <- function(logo.imgs, grid_of_n_squares){
+
+  free_square_img <- readPNG("inst/free-square.png")
+  centre_square_img <- readPNG("inst/centre-square.png")
+
+  if(length(logo.imgs) == grid_of_n_squares - 1){
+    append(logo.imgs,
+            list(centre_square_img),
+            after = {ceiling(grid_of_n_squares / 2)} - 1)
+  } else {
+
+    all_squares <- 1:grid_of_n_squares
+    except_centre <- all_squares[-{{ceiling(grid_of_n_squares / 2)}}]
+    print(except_centre)
+    logo_positions <- sample(except_centre, 9)
+    free_square_positions <- setdiff(except_centre, logo_positions)
+
+    new_list <- list(1:grid_of_n_squares)
+
+    new_list[free_square_positions] <- list(free_square_img)
+
+    new_list[logo_positions] <- logo.imgs
+
+    new_list[{ceiling(grid_of_n_squares / 2)}] <- list(centre_square_img)
+
+    new_list
+  }
+
 }
-wrap_it <- Vectorize(wrap_one, "x", USE.NAMES = FALSE)
+
+
+# fill_with_free_squares(1:9, 25)
 
 make_grid <- function(n) {
   gridlines <- grid::unit( (0:n) / n, "npc")
@@ -16,14 +50,3 @@ make_grid <- function(n) {
   gridlines
 }
 
-## write something to compute n from a vector or matrix of bingo card data
-infer_n <- function(bc) {
-  m <- if (length(dim(bc) == 2)) nrow(bc) else length(bc)
-  n_ok <- 3:6
-  n_sq <- n_ok ^ 2
-  n <- n_ok[match(m, n_sq)]
-  if (is.na(n))
-    stop("Sorry, we are only prepared to plot square bingo cards ",
-         "with ", min(n_ok), " to ", max(n_ok), " rows/cols.", call. = FALSE)
-  n
-}

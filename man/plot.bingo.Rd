@@ -33,4 +33,3 @@ Does not actually plot the cards to the graphics device
 bc <- bingo()
 plot(bc)
 }
-
